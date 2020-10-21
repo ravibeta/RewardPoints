@@ -28,7 +28,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import com.google.gson.Gson;
 import javax.inject.Inject;
+import javax.json.Json;
+import javax.json.JsonReader;
+import javax.json.JsonArray;
+import javax.json.JsonObject;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -44,7 +50,7 @@ class OwnerController {
     private OwnerRepository owners;
     private static final Logger logger = LoggerFactory.getLogger(OwnerController.class);
 
-    @RequestMapping(value = "/owner/{ownerId}/getVisits", method = RequestMethod.GET)
+    @RequestMapping(value = "/owner/{ownerId}/getrewardpoints", method = RequestMethod.GET)
     public ResponseEntity<List<RewardPoint>> getOwnerRewardPoints(@PathVariable int ownerId){
         List<RewardPoint> rewardpointList = new ArrayList<RewardPoint>();
         Owner owner = this.owners.findByOwnerId(ownerId);
@@ -58,9 +64,16 @@ class OwnerController {
     private List<RewardPoint> getRewardPoints(int ownerId){
         List<RewardPoint> rewardpointList = new ArrayList<RewardPoint>();
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<RewardPoint[]> entity = restTemplate.getForEntity("http://"+serviceEndpoint+"/rewardpoint/", RewardPoint[].class);
-        if (entity.getBody() != null) {
-            rewardpointList = Arrays.asList(entity.getBody()).stream().filter(t -> t.getOwnerId() == ownerId).collect(Collectors.toList());
+        ResponseEntity<String> entity2 = restTemplate.getForEntity("http://"+serviceEndpoint+"/rewardpoint/", String.class);
+        RewardPoint[] rewardpoints = null;
+        try(JsonReader jsonReader = Json.createReader(new StringReader(entity2.getBody()))) {
+         JsonObject result = jsonReader.readObject();
+         JsonObject embedded = result.getJsonObject("_embedded");
+         JsonArray jsonArray = embedded.getJsonArray("rewardpoint");
+         rewardpoints = new Gson().fromJson(jsonArray.toString(), RewardPoint[].class);
+        }
+        if (rewardpoints  != null) {
+            rewardpointList = Arrays.asList(rewardpoints).stream().filter(t -> t.getOwnerId() == ownerId).collect(Collectors.toList());
         }
         return rewardpointList;
     }

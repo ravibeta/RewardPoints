@@ -18,10 +18,10 @@ CREATE TABLE IF NOT EXISTS owners (
   INDEX(last_name)
 ) engine=InnoDB;
 
-CREATE TABLE IF NOT EXISTS visits (
+CREATE TABLE IF NOT EXISTS rewardpoints (
   id INT(4) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
   owner_id INT(4) UNSIGNED NOT NULL,
-  visit_date DATE,
+  rewardpoint_date DATE,
   description VARCHAR(255),
   FOREIGN KEY (owner_id) REFERENCES owners(id)
 ) engine=InnoDB;
