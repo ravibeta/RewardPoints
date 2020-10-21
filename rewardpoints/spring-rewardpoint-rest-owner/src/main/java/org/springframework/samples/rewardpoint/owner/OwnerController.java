@@ -18,6 +18,8 @@ package org.springframework.samples.rewardpoint.owner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.samples.rewardpoint.model.Owner;
+import org.springframework.samples.rewardpoint.model.RewardPoint;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,6 +30,7 @@ import org.springframework.web.client.RestTemplate;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -48,13 +51,16 @@ class OwnerController {
             return new ResponseEntity<List<RewardPoint>>(rewardpointList, HttpStatus.BAD_REQUEST);
         }
         rewardpointList = getRewardPoints(ownerId);
-        return new ResponseEntity<List<Visit>>(rewardpointList, HttpStatus.OK);
+        return new ResponseEntity<List<RewardPoint>>(rewardpointList, HttpStatus.OK);
     }
 
     private List<RewardPoint> getRewardPoints(int ownerId){
         List<RewardPoint> rewardpointList = new ArrayList<RewardPoint>();
         RestTemplate restTemplate = new RestTemplate();
-        // rewardpointList = restTemplate.getForObject("http://"+serviceEndpoint+"/rewardpoint/"+ownerId, RewardPoint.class);
+        ResponseEntity<RewardPoint[]> entity = restTemplate.getForEntity("http://"+serviceEndpoint+"/rewardpoint/"+ownerId, RewardPoint[].class);
+        if (entity.getBody() != null) {
+            rewardpointList = Arrays.asList(entity.getBody());
+        }
         return rewardpointList;
     }
 }
