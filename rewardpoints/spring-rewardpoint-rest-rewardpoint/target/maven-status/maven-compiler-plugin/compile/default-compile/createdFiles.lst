@@ -1,0 +1,8 @@
+org/springframework/samples/rewardpoint/rewardpoint/RewardPointRepository.class
+org/springframework/samples/rewardpoint/RewardPointApplication.class
+org/springframework/samples/rewardpoint/rewardpoint/RewardPointController.class
+org/springframework/samples/rewardpoint/model/NamedEntity.class
+org/springframework/samples/rewardpoint/model/BaseEntity.class
+org/springframework/samples/rewardpoint/model/Owner.class
+org/springframework/samples/rewardpoint/model/RewardPoint.class
+org/springframework/samples/rewardpoint/model/Person.class

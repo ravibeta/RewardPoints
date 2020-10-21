@@ -210,10 +210,10 @@
     }
   },
   "Resources": {
-    "PetClinicDB": {
+    "RewardPointDB": {
       "Type": "AWS::RDS::DBInstance",
       "Properties": {
-        "DBName": "PetClinicDB",
+        "DBName": "RewardPointDB",
         "Engine": "MySQL",
         "MasterUsername": {
           "Ref": "DBUsername"
@@ -221,7 +221,7 @@
         "DBInstanceClass": "db.t2.medium",
         "AllocatedStorage": "5",
         "DBSubnetGroupName": {
-          "Ref": "PetClinicSubnetGroup"
+          "Ref": "RewardPointSubnetGroup"
         },
         "MasterUserPassword": {
           "Ref": "DBPassword"
@@ -236,7 +236,7 @@
         ]
       }
     },
-    "PetClinicSubnetGroup": {
+    "RewardPointSubnetGroup": {
       "Type": "AWS::RDS::DBSubnetGroup",
       "Properties": {
         "DBSubnetGroupDescription": "Subnets available for the RDS DB Instance",
@@ -1162,14 +1162,14 @@
             "jdbc:mysql://",
             {
               "Fn::GetAtt": [
-                "PetClinicDB",
+                "RewardPointDB",
                 "Endpoint.Address"
               ]
             },
             ":",
             {
               "Fn::GetAtt": [
-                "PetClinicDB",
+                "RewardPointDB",
                 "Endpoint.Port"
               ]
             },
