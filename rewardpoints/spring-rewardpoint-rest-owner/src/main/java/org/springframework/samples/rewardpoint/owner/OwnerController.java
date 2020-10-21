@@ -77,4 +77,13 @@ class OwnerController {
         }
         return rewardpointList;
     }
+    /*
+ curl -i -k 'http://localhost:8228/owner/7/getrewardpoints'
+HTTP/1.1 200
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Wed, 21 Oct 2020 10:17:37 GMT
+
+[{"id":null,"date":"2013-01-01T00:00:00.000+0000","description":"","ownerId":7,"new":true},{"id":null,"date":"2013-01-04T00:00:00.000+0000","description":"","ownerId":7,"new":true},{"id":null,"date":"2013-01-04T00:00:00.000+0000","description":"","ownerId":7,"new":true}]
+     */
 }
