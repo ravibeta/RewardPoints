@@ -32,11 +32,12 @@ import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 class OwnerController {
 
-    @Value("#{environment['SERVICE_ENDPOINT'] ?: 'localhost:8080'}")
+    @Value("#{environment['SERVICE_ENDPOINT'] ?: 'localhost:8118'}")
     private String serviceEndpoint;
 
     @Inject
@@ -46,7 +47,7 @@ class OwnerController {
     @RequestMapping(value = "/owner/{ownerId}/getVisits", method = RequestMethod.GET)
     public ResponseEntity<List<RewardPoint>> getOwnerRewardPoints(@PathVariable int ownerId){
         List<RewardPoint> rewardpointList = new ArrayList<RewardPoint>();
-        Owner owner = this.owners.findById(ownerId);
+        Owner owner = this.owners.findByOwnerId(ownerId);
         if (owner == null) {
             return new ResponseEntity<List<RewardPoint>>(rewardpointList, HttpStatus.BAD_REQUEST);
         }
@@ -57,9 +58,9 @@ class OwnerController {
     private List<RewardPoint> getRewardPoints(int ownerId){
         List<RewardPoint> rewardpointList = new ArrayList<RewardPoint>();
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<RewardPoint[]> entity = restTemplate.getForEntity("http://"+serviceEndpoint+"/rewardpoint/"+ownerId, RewardPoint[].class);
+        ResponseEntity<RewardPoint[]> entity = restTemplate.getForEntity("http://"+serviceEndpoint+"/rewardpoint/", RewardPoint[].class);
         if (entity.getBody() != null) {
-            rewardpointList = Arrays.asList(entity.getBody());
+            rewardpointList = Arrays.asList(entity.getBody()).stream().filter(t -> t.getOwnerId() == ownerId).collect(Collectors.toList());
         }
         return rewardpointList;
     }

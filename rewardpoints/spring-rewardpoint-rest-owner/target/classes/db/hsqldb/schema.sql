@@ -1,4 +1,4 @@
-DROP TABLE visits IF EXISTS;
+DROP TABLE rewardpoints IF EXISTS;
 DROP TABLE owners IF EXISTS;
 
 
@@ -12,11 +12,11 @@ CREATE TABLE owners (
 );
 CREATE INDEX owners_last_name ON owners (last_name);
 
-CREATE TABLE visits (
+CREATE TABLE rewardpoints (
   id          INTEGER IDENTITY PRIMARY KEY,
   owner_id      INTEGER NOT NULL,
-  visit_date  DATE,
+  rewardpoint_date  DATE,
   description VARCHAR(255)
 );
-ALTER TABLE visits ADD CONSTRAINT fk_visits_owners FOREIGN KEY (owner_id) REFERENCES owners (id);
-CREATE INDEX visits_owner_id ON visits (owner_id);
+ALTER TABLE rewardpoints ADD CONSTRAINT fk_rewardpoints_owners FOREIGN KEY (owner_id) REFERENCES owners (id);
+CREATE INDEX rewardpoints_owner_id ON rewardpoints (owner_id);

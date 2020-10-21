@@ -52,6 +52,6 @@ public interface OwnerRepository extends PagingAndSortingRepository<Owner, Integ
      */
     @Query("SELECT owner FROM Owner owner WHERE owner.id =:id")
     @Transactional(readOnly = true)
-    Owner findById(@Param("id") Integer id);
+    Owner findByOwnerId(@Param("id") Integer id);
 
 }
