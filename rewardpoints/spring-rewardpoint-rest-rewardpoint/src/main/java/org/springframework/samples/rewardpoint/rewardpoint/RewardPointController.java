@@ -58,6 +58,9 @@ public class RewardPointController {
 
     @RequestMapping(value = "/owners/{ownerId}/rewardpoints/", method = RequestMethod.POST)
     public void addRewardPoint(RewardPoint rewardpoint) {
+        if (rewardpoint.getDescription() == null || rewardpoint.getDescription().trim().equals("")) {
+            rewardpoint.setDescription("direct");
+        }
         this.rewardpoints.save(rewardpoint);
     }
 
@@ -77,5 +80,9 @@ Transfer-Encoding: chunked
 Date: Thu, 22 Oct 2020 00:10:38 GMT
 
 [{"id":1,"date":"2013-01-01T00:00:00.000+0000","description":"","ownerId":7,"new":false},{"id":4,"date":"2013-01-04T00:00:00.000+0000","description":"","ownerId":7,"new":false},{"id":20,"date":"2013-01-04T00:00:00.000+0000","description":"","ownerId":7,"new":false}]
+curl -i -k 'http://localhost:8118/owners/7/rewardpoints/' -X POST -d '{"rewardpoint_description":"direct","rewardpoint_date":"2020/10/22","owner_id":7}' -H 'Content-Type: application/xml'  -H 'Content-length: 0'
+HTTP/1.1 200
+Content-Length: 0
+Date: Thu, 22 Oct 2020 07:30:09 GMT
 */
 }
