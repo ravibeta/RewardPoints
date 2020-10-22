@@ -28,7 +28,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.samples.rewardpoint.model.BaseEntity;
 
 /**
- * Simple JavaBean domain object representing a RewardPoint
+ * Simple JavaBean domain object representing a rewardpoint.
  *
  */
 @Entity
@@ -51,14 +51,20 @@ public class RewardPoint extends BaseEntity {
     private String description;
 
     /**
-     * Holds value of property pet.
+     * Holds value of property owner.
      */
     @Column(name = "owner_id")
     private Integer ownerId;
 
 
     /**
-     * Creates a new instance of rewardpoint for the current date
+     * Holds value of reward points.
+     */
+    @Column(name = "points")
+    private Integer points;
+
+    /**
+     * Creates a new instance of RewardPoint for the current date
      */
     public RewardPoint() {
         this.date = new Date();
@@ -119,4 +125,21 @@ public class RewardPoint extends BaseEntity {
         this.ownerId = ownerId;
     }
 
+    /**
+     * Getter for property points.
+     *
+     * @return Value of property points.
+     */
+    public Integer getPoints() {
+        return this.points;
+    }
+
+    /**
+     * Setter for property points.
+     *
+     * @param points New value of property points
+     */
+    public void setPoints(Integer points) {
+        this.points = points;
+    }
 }

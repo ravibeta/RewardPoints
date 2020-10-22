@@ -21,6 +21,7 @@ CREATE TABLE IF NOT EXISTS owners (
 CREATE TABLE IF NOT EXISTS rewardpoints (
   id INT(4) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
   owner_id INT(4) UNSIGNED NOT NULL,
+  points INTEGER DEFAULT 5,
   rewardpoint_date DATE,
   description VARCHAR(255),
   FOREIGN KEY (owner_id) REFERENCES owners(id)
