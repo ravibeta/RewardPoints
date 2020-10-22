@@ -58,6 +58,12 @@ public class RewardPoint extends BaseEntity {
 
 
     /**
+     * Holds value of reward points.
+     */
+    @Column(name = "points")
+    private Integer points;
+
+    /**
      * Creates a new instance of RewardPoint for the current date
      */
     public RewardPoint() {
@@ -119,4 +125,21 @@ public class RewardPoint extends BaseEntity {
         this.ownerId = ownerId;
     }
 
+    /**
+     * Getter for property points.
+     *
+     * @return Value of property points.
+     */
+    public Integer getPoints() {
+        return this.points;
+    }
+
+    /**
+     * Setter for property points.
+     *
+     * @param points New value of property points
+     */
+    public void setPoints(Integer points) {
+        this.points = points;
+    }
 }
