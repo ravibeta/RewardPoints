@@ -70,7 +70,7 @@ public class Egift extends BaseEntity {
     private String  egiftId;
 
     /**
-     * Creates a new instance of RewardPoint for the current date
+     * Creates a new instance of Egift for the current date
      */
     public Egift() {
         this.date = new Date();
