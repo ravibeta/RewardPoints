@@ -1,0 +1,9 @@
+org/springframework/samples/egift/model/NamedEntity.class
+org/springframework/samples/egift/egiftstore/EgiftRepository.class
+org/springframework/samples/egift/model/RewardPoint.class
+org/springframework/samples/egift/EgiftApplication.class
+org/springframework/samples/egift/model/BaseEntity.class
+org/springframework/samples/egift/model/Egift.class
+org/springframework/samples/egift/model/Owner.class
+org/springframework/samples/egift/model/Person.class
+org/springframework/samples/egift/egiftstore/EgiftController.class
