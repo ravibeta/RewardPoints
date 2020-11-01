@@ -22,14 +22,23 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.samples.rewardpoint.model.Owner;
 import org.springframework.samples.rewardpoint.model.RewardPoint;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import com.google.gson.Gson;
 import javax.inject.Inject;
+import javax.json.Json;
+import javax.json.JsonReader;
+import javax.json.JsonArray;
+import javax.json.JsonObject;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -56,8 +65,28 @@ public class RewardPointController {
         this.rewardpoints = rewardpoints;
     }
 
+    @RequestMapping(value = "/rewardpoints/", method = RequestMethod.POST,
+                    consumes = "application/json")
+    public String handleSlackEvent(@RequestBody String challenge) {
+    logger.debug("challenge={}", challenge);
+    try(JsonReader jsonReader = Json.createReader(new StringReader(challenge))) {
+         JsonObject result = jsonReader.readObject();
+         String code = result.getString("challenge");
+         if (code == null) code = "";
+         // String owner = result.getString("item_user");
+         // if (owner != null) {
+             // lookup owner or create new owner
+             // RewardPoint rewardPoint = new RewardPoint();
+             // set rewardpoint owner
+             // this.rewardpoints.save(rewardpoint);
+         // }
+         return code;
+    }
+    }
+
     @RequestMapping(value = "/owners/{ownerId}/rewardpoints/", method = RequestMethod.POST)
     public void addRewardPoint(RewardPoint rewardpoint) {
+        logger.debug("rewardpoint={}", rewardpoint);
         if (rewardpoint.getDescription() == null || rewardpoint.getDescription().trim().equals("")) {
             rewardpoint.setDescription("direct");
         }
