@@ -21,11 +21,11 @@ plugins {
 }
 
 group='com.rewardpoints.event'
-evently plugin: 'com.github.johnrengelman.shadow'
+apply plugin: 'com.github.johnrengelman.shadow'
 version = '1.0'
 sourceSets.main.java.srcDirs = ['src']
 mainClassName = 'com.rewardpoints.event.PubSub'
-eventlicationName = 'PubSub'
+applicationName = 'PubSub'
 
 
 repositories {
@@ -67,7 +67,7 @@ jar {
     zip64=true
 }
 
-evently plugin: "maven-publish"
+apply plugin: "maven-publish"
 publishing {
     repositories {
         maven {
