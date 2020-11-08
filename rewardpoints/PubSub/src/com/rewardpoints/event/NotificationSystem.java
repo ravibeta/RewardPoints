@@ -9,6 +9,10 @@ import lombok.Data;
 import lombok.Synchronized;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Equivalent of a message broker.
+ * @param <T>   Type of notification.
+ */
 @Slf4j
 public class NotificationSystem<T extends Notification> {
     // @GuardedBy("$lock")
@@ -19,7 +23,7 @@ public class NotificationSystem<T extends Notification> {
     @SuppressWarnings({ "unchecked", "rawtypes" })
     @Synchronized
     public void addListener(final String type,
-                                                     final Listener<T> listener) {
+                            final Listener<T> listener) {
         if (!isListenerPresent(listener)) {
             listenerMap.put(type, listener);
         }
@@ -36,10 +40,13 @@ public class NotificationSystem<T extends Notification> {
         String type = notification.getClass().getSimpleName();
         Listener<T> listener = listenerMap.get(type);
         log.info("Executing listener of type: {} for notification: {}", type, notification);
-        // executorService.execute(() -> listener.onNext(notification),
-        //         throwable -> listener.onError(throwable),
-        //        () -> listener.onCompleted(),
-        //        executorService);
+        executorService.submit(() -> {
+            try {
+                listener.onNext(notification);
+            } catch (Throwable ex) {
+                listener.onError(ex);
+            }
+        });
     }
 
     @Synchronized
@@ -55,7 +62,7 @@ public class NotificationSystem<T extends Notification> {
     @SuppressWarnings({ "unchecked", "rawtypes" })
     @Synchronized
     public void addNotifier(final String type,
-                                                     final Notifier<T> notifier) {
+                            final Notifier<T> notifier) {
         if (!isNotifierPresent(notifier)) {
             notifierMap.put(type, notifier);
         }
@@ -65,7 +72,6 @@ public class NotificationSystem<T extends Notification> {
     public void removeNotifier(final String type, final Notifier<T> notifier) {
         notifierMap.remove(type);
     }
-
 
     private boolean isNotifierPresent(final Notifier<T> notifier) {
         return notifierMap.values().stream().anyMatch(le -> le.equals(notifier));

@@ -15,9 +15,8 @@ public interface Listener<T> {
 
     /**
      * Detach a notifier.
-     * @param notifier the notifier which needs to be removed.
      */
-    void unsubscribe(final Notifier<T> notifier);
+    void unsubscribe();
 
     /**
      * finished notifying.
@@ -32,6 +31,6 @@ public interface Listener<T> {
     /**
      * failed event processing.
      */
-    void onError(Exception exception);
+    void onError(Throwable exception);
 
 }
