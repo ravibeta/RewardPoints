@@ -73,7 +73,10 @@ public class NotificationSystem<T extends Notification> {
         notifierMap.remove(type);
     }
 
-    private boolean isNotifierPresent(final Notifier<T> notifier) {
-        return notifierMap.values().stream().anyMatch(le -> le.equals(notifier));
+    public boolean isNotifierPresent(final Notifier<T> notifier) {
+        return notifierMap.values().stream().anyMatch(n -> n.equals(notifier));
+    }
+    public boolean isSubscriberPresent(final Listener<T> listener) {
+        return listenerMap.values().stream().anyMatch(l -> l.equals(listener));
     }
 }
