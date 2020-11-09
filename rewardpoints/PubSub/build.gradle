@@ -14,7 +14,7 @@ buildscript {
 
 plugins {
     id 'java'
-    // id 'application'
+    id 'application'
     id 'idea'
     id "io.freefair.lombok" version "3.1.0"
     id 'com.gradle.build-scan' version '2.0.2'
@@ -25,8 +25,8 @@ apply plugin: 'com.github.johnrengelman.shadow'
 version = '1.0'
 sourceSets.main.java.srcDirs = ['main']
 sourceSets.test.java.srcDirs = ['test']
-// mainClassName = 'com.rewardpoints.event.EventService'
-// applicationName = 'PubSub'
+mainClassName = 'com.rewardpoints.event.EventService'
+applicationName = 'PubSub'
 
 
 repositories {
@@ -62,8 +62,8 @@ jar {
 		'Class-Path': classpathVar
     }
     baseName = project.name 
-    // mainClassName = 'com.rewardpoints.event.EventService'
-    // from sourceSets.main.output
+    mainClassName = 'com.rewardpoints.event.EventService'
+    from sourceSets.main.output
     from {
         configurations.runtimeClasspath.findAll { System.err.println(it.name); it.name.endsWith('jar') }.collect { zipTree(it) }
     }
