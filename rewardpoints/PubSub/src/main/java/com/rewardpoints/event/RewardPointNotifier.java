@@ -23,7 +23,10 @@ public class RewardPointNotifier<T extends Notification> implements Notifier<T> 
 
     @java.lang.Override
     public void subscribe(Listener listener) {
-        this.listener = listener;
+        if (listener != null){
+            this.listener = listener;
+            system.addListener(type, listener);
+        }
     }
 
     @java.lang.Override
