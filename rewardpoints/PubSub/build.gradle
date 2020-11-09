@@ -23,8 +23,9 @@ plugins {
 group='com.rewardpoints.event'
 apply plugin: 'com.github.johnrengelman.shadow'
 version = '1.0'
-sourceSets.main.java.srcDirs = ['src']
-mainClassName = 'com.rewardpoints.event.PubSub'
+sourceSets.main.java.srcDirs = ['main']
+sourceSets.test.java.srcDirs = ['test']
+mainClassName = 'com.rewardpoints.event.EventService'
 applicationName = 'PubSub'
 
 
@@ -48,7 +49,8 @@ dependencies {
     compile group: 'com.jayway.jsonpath', name:'json-path', version:'2.1.0'
     compile group: 'javax.annotation', name: 'javax.annotation-api', version: javaxAnnotationVersion
     // implementation 'com.rewardpoints:rewardpoints-android:16.0.0'
-    testCompile "junit:junit:4.+"
+    // testCompile "junit:junit:4.+"
+    compile group: 'junit', name: 'junit', version: junitVersion
 }
 
 String classpathVar = configurations.compile.collect { it.getName() }.join(' ');
@@ -56,11 +58,11 @@ jar {
     manifest {
         attributes 'Implementation-Title': 'PubSub',
                 'Implementation-Version': version,
-                'Main-Class': 'com.rewardpoints.event.PubSub',
+                'Main-Class': 'com.rewardpoints.event.EventService',
 		'Class-Path': classpathVar
     }
     baseName = project.name 
-    mainClassName = 'com.rewardpoints.event.PubSub'
+    mainClassName = 'com.rewardpoints.event.EventService'
     from sourceSets.main.output
     from {
         configurations.runtimeClasspath.findAll { System.err.println(it.name); it.name.endsWith('jar') }.collect { zipTree(it) }
