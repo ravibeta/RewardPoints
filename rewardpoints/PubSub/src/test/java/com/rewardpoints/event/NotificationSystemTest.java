@@ -6,8 +6,6 @@ import static org.junit.Assert.assertEquals;
 public class NotificationSystemTest {
     @Test
     public void testCreation() {
-        System.err.println("Hello world!");
-        Assert.assertEquals(false, true);
         NotificationSystem notificationSystem = new NotificationSystem();
         RewardPointNotifier notifier = new RewardPointNotifier(notificationSystem);
         RewardPointSubscriber listener = new RewardPointNotifier(notificationSystem);
