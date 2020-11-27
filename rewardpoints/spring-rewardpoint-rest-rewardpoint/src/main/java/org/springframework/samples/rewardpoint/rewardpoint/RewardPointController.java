@@ -93,6 +93,16 @@ public class RewardPointController {
         this.rewardpoints.save(rewardpoint);
     }
 
+    @RequestMapping(value = "/owners/{ownerId}/balance/", method = RequestMethod.GET)
+    public ResponseEntity<String> balance(@PathVariable int ownerId) {
+        logger.debug("ownerId={}", ownerId);
+	List<RewardPoint> rewardpointList = this.rewardpoints.findByOwnerId(ownerId);
+        if (rewardpointList == null) {
+            return new ResponseEntity<String>(String.valueOf(0), HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<String>(String.valueOf(rewardpointList.stream().mapToInt(t -> t.getPoints()).sum()), HttpStatus.OK);
+    }
+
     @RequestMapping(value = "/owner/{ownerId}/", method = RequestMethod.GET)
     public ResponseEntity<List<RewardPoint>> getOwnerRewardPoints(@PathVariable int ownerId){
         List<RewardPoint> rewardpointList = this.rewardpoints.findByOwnerId(ownerId);
