@@ -40,8 +40,10 @@ import javax.json.JsonReader;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
 import java.io.StringReader;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -90,9 +92,6 @@ public class RewardPointController {
         if (rewardpoint.getDescription() == null || rewardpoint.getDescription().trim().equals("")) {
             rewardpoint.setDescription("direct");
         }
-        if (classify(rewardpoint) == false) {
-            return new ResponseEntity<String>("Too many recognitions from the same person.", HttpStatus.BAD_REQUEST);
-        }
         this.rewardpoints.save(rewardpoint);
         return new ResponseEntity<String>("Success", HttpStatus.OK);
     }
@@ -109,11 +108,14 @@ public class RewardPointController {
 
     public boolean classify(RewardPoint rewardpoint) {
            List<RewardPoint> rewardpointList = this.rewardpoints.findByOwnerId(rewardpoint.getOwnerId());
+           String date = new SimpleDateFormat("yyyy-mm-dd").format(new Date(System.currentTimeMillis()));
            if (rewardpointList != null && 
-               rewardpointList.stream().filter(t -> 	t.getRecognizerId() != null &&
-							t.getRecognizerId().equals(0) == false && 
+               rewardpointList.stream().filter(t -> 	{ logger.info(" {} compareTo {}", date, t.getDate().toString()); 
+							return t.getRecognizerId() != null &&
+							t.getDate().toString().startsWith(date) &&
 							t.getRecognizerId().equals(rewardpoint.getRecognizerId()) &&
-							t.getOwnerId().equals(rewardpoint.getOwnerId())).mapToInt(t -> {return 1;}).sum() < 2) {
+							t.getOwnerId().equals(rewardpoint.getOwnerId()); }).mapToInt(t -> {return 1;}).sum() < 2) {
+               logger.debug("Too many recognitions from the same person with id {}", rewardpoint.getRecognizerId());
                return false;
            }
            return true;

@@ -15,6 +15,7 @@ CREATE INDEX owners_last_name ON owners (last_name);
 CREATE TABLE rewardpoints (
   id          INTEGER IDENTITY PRIMARY KEY,
   owner_id      INTEGER NOT NULL,
+  recognizer_id INTEGER,
   points      INTEGER DEFAULT 5,
   rewardpoint_date  DATE,
   description VARCHAR(255)
