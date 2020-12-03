@@ -85,12 +85,16 @@ public class RewardPointController {
     }
 
     @RequestMapping(value = "/owners/{ownerId}/rewardpoints/", method = RequestMethod.POST)
-    public void addRewardPoint(RewardPoint rewardpoint) {
+    public ResponseEntity<String> addRewardPoint(RewardPoint rewardpoint) {
         logger.debug("rewardpoint={}", rewardpoint);
         if (rewardpoint.getDescription() == null || rewardpoint.getDescription().trim().equals("")) {
             rewardpoint.setDescription("direct");
         }
+        if (classify(rewardpoint) == false) {
+            return new ResponseEntity<String>("Too many recognitions from the same person.", HttpStatus.BAD_REQUEST);
+        }
         this.rewardpoints.save(rewardpoint);
+        return new ResponseEntity<String>("Success", HttpStatus.OK);
     }
 
     @RequestMapping(value = "/owners/{ownerId}/balance/", method = RequestMethod.GET)
@@ -101,6 +105,16 @@ public class RewardPointController {
             return new ResponseEntity<String>(String.valueOf(0), HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<String>(String.valueOf(rewardpointList.stream().mapToInt(t -> t.getPoints()).sum()), HttpStatus.OK);
+    }
+
+    public boolean classify(RewardPoint rewardpoint) {
+           List<RewardPoint> rewardpointList = this.rewardpoints.findByOwnerId(rewardpoint.getOwnerId());
+           if (rewardpointList != null && 
+               rewardpointList.stream().filter(t -> t.getRecognizerId().equals(rewardpoint.getRecognizerId()) &&
+							t.getOwnerId().equals(rewardpoint.getOwnerId())).mapToInt(t -> {return 1;}).sum() < 2) {
+               return false;
+           }
+           return true;
     }
 
     @RequestMapping(value = "/owner/{ownerId}/", method = RequestMethod.GET)

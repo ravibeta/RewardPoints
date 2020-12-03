@@ -56,6 +56,13 @@ public class RewardPoint extends BaseEntity {
     @Column(name = "owner_id")
     private Integer ownerId;
 
+    /**
+     * Holds value of recognizer.
+     */
+    @Column(name = "recognizer_id")
+    private Integer recognizerId;
+
+
 
     /**
      * Holds value of reward points.
@@ -124,6 +131,25 @@ public class RewardPoint extends BaseEntity {
     public void setOwnerId(Integer ownerId) {
         this.ownerId = ownerId;
     }
+
+    /**
+     * Getter for recognized id.
+     *
+     * @return Value of recognizer id.
+     */
+    public Integer getRecognizerId() {
+        return this.ownerId;
+    }
+
+    /**
+     * Setter for recognized id.
+     *
+     * @param ownerId New value of recognizer id.
+     */
+    public void setRecognizerId(Integer recognizerId) {
+        this.recognizerId = recognizerId;
+    }
+
 
     /**
      * Getter for property points.
