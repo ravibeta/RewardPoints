@@ -110,7 +110,9 @@ public class RewardPointController {
     public boolean classify(RewardPoint rewardpoint) {
            List<RewardPoint> rewardpointList = this.rewardpoints.findByOwnerId(rewardpoint.getOwnerId());
            if (rewardpointList != null && 
-               rewardpointList.stream().filter(t -> t.getRecognizerId().equals(rewardpoint.getRecognizerId()) &&
+               rewardpointList.stream().filter(t -> 	t.getRecognizerId() != null &&
+							t.getRecognizerId().equals(0) == false && 
+							t.getRecognizerId().equals(rewardpoint.getRecognizerId()) &&
 							t.getOwnerId().equals(rewardpoint.getOwnerId())).mapToInt(t -> {return 1;}).sum() < 2) {
                return false;
            }
