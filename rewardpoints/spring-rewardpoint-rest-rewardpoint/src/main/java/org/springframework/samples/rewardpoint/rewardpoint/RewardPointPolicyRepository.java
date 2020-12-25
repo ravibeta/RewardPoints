@@ -15,6 +15,7 @@
  */
 package org.springframework.samples.rewardpoint.rewardpoint;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.dao.DataAccessException;
@@ -24,23 +25,28 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.data.repository.Repository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.samples.rewardpoint.model.BaseEntity;
-import org.springframework.samples.rewardpoint.model.Owner;
 import org.springframework.samples.rewardpoint.model.RewardPoint;
 import org.springframework.samples.rewardpoint.model.RewardPointPolicy;
 import org.springframework.transaction.annotation.Transactional;
 
-@RepositoryRestResource(collectionResourceRel = "rewardpoint", path = "rewardpoint")
-
-public interface RewardPointRepository extends PagingAndSortingRepository<RewardPoint, Integer> {
+@RepositoryRestResource(collectionResourceRel = "rewardpointpolicy", path = "rewardpointpolicy")
+public interface RewardPointPolicyRepository extends PagingAndSortingRepository<RewardPointPolicy, Integer> {
     /**
-     * Retrieve an {@link Owner} from the data store by id.
-     *
-     * @param id the id to search for
-     * @return the {@link Owner} if found
+     * Retrieve a Collection of {@link RewardPointPolicy} from the data store by id.
+     * @return a Collection of {@link RewardPointPolicy} if found
      */
-    @Query("SELECT rewardpoint FROM RewardPoint rewardpoint WHERE ownerId =:ownerId")
+    @Query("SELECT policy FROM RewardPointPolicy policy")
     @Transactional(readOnly = true)
-    List<RewardPoint> findByOwnerId(@Param("ownerId") Integer ownerId);
+    Collection<RewardPointPolicy> getPolicies();
 
+    /**
+     * Retrieve {@link RewardPointPolicy}s from the data store returning all policies
+     * @param lastName Value to search for
+     * @return a Collection of matching {@link Owner}s (or an empty Collection if none
+     * found)
+     */
+    @Query("SELECT DISTINCT policy FROM RewardPointPolicy policy WHERE policy.predicate LIKE :predicate%")
+    @Transactional(readOnly = true)
+    Collection<RewardPointPolicy> findByPredicate(@Param("predicate") String predicate);
 }
 

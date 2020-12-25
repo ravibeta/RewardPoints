@@ -27,3 +27,10 @@ CREATE TABLE IF NOT EXISTS rewardpoints (
   description VARCHAR(255),
   FOREIGN KEY (owner_id) REFERENCES owners(id)
 ) engine=InnoDB;
+
+
+CREATE TABLE IF NOT EXISTS rewardpointpolicys (
+  id INT(4) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  predicate VARCHAR(255),
+  INDEX(predicate)
+) engine=InnoDB;

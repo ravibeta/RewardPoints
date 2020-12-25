@@ -23,3 +23,8 @@ CREATE TABLE rewardpoints (
 
 ALTER TABLE rewardpoints ADD CONSTRAINT fk_rewardpoints_owners FOREIGN KEY (owner_id) REFERENCES owners (id);
 CREATE INDEX rewardpoints_owner_id ON rewardpoints (owner_id);
+
+CREATE TABLE rewardpointpolicys (
+  id          INTEGER IDENTITY PRIMARY KEY,
+  predicate VARCHAR(255)
+);

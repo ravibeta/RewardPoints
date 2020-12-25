@@ -34,3 +34,5 @@ INSERT IGNORE INTO rewardpoints VALUES (17, 6, 4, 5, '2013-01-01', '');
 INSERT IGNORE INTO rewardpoints VALUES (18, 8, 3, 5, '2013-01-02', '');
 INSERT IGNORE INTO rewardpoints VALUES (19, 8, 2, 5, '2013-01-03', '');
 INSERT IGNORE INTO rewardpoints VALUES (20, 7, 1, 5, '2013-01-04', '');
+
+INSERT IGNORE INTO rewardpointpolicys VALUES(1, "descriptionLIKEdescription1");

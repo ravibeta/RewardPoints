@@ -29,3 +29,6 @@ INSERT INTO rewardpoints VALUES (17, 6, 7, 5, '2013-01-01', '');
 INSERT INTO rewardpoints VALUES (18, 8, 8, 5, '2013-01-02', '');
 INSERT INTO rewardpoints VALUES (19, 8, 9, 5, '2013-01-03', '');
 INSERT INTO rewardpoints VALUES (20, 7, 1, 5, '2013-01-04', '');
+
+INSERT INTO rewardpointpolicys VALUES(1, 'descriptionLIKEdescription1');
+
